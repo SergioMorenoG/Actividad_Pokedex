@@ -35,14 +35,61 @@ body {
 }
 
 .buscador {
-    position: flex;
-    margin: 70px 0 70px;
-    justify-content: center;
+	position: absolute;
+	left: 50%;
+	top: 40%;
+	transform: translate(-50%,-50%);
+	padding: 10px;
+}
 
+input {
+	outline: none;
+	box-sizing: border-box;
+	height: 60px;
+	width: 0px;
+	padding: 0 20px;
+	color: #000;
+	border-radius: 50px;
+	font-size: 20px;
+	border: 1px solid #9b2121;
+	transition: all .7s ease;
+}
+
+::placeholder {
+	color: grey;
+}
+
+.boton {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 80px;
+	height: 80px;
+	line-height: 80px;
+	border-radius: 50%;
+	text-align: center;
+	cursor: pointer;
+	transition: .5s;
+}
+
+.boton img {
+	font-size: 25px;
+	color: white;
+	line-height: 80px;
+	transition: all .7s ease;
+}
+
+.buscador:hover input {
+	width: 350px;
+}
+
+.boton:hover img{
+	transform: rotate(-180deg);
 }
 
 .contenedor {
     padding: 40px;
+    padding-top: 200px;
     margin: 0 auto;
 }
 
@@ -111,5 +158,5 @@ body {
 }
 
 @media (min-width: 720px) {
-
+    
 }
