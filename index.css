@@ -18,7 +18,6 @@ body {
     color: black;
 }
 
-
 #encabezado {
     display: flex;
     font-size: 30px;
@@ -28,22 +27,28 @@ body {
     min-height: 80px;
     background-color: rgb(182, 41, 41);
     padding: 10px;
+    padding-bottom: 20px;
     border-bottom: 6px solid rgb(27, 26, 26);
     background: linear-gradient(rgba(25, 41, 41, 0.6), rgba(25, 41, 41, 0.6)), url(imgs/img-encabezado.jpg);
     background-size: cover;
     background-position: center;
 }
 
+.buscador-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: -100px;
+}
+
 .buscador {
-	position: absolute;
-	left: 50%;
-	top: 40%;
-	transform: translate(-50%,-50%);
 	padding: 10px;
 }
 
 input {
 	outline: none;
+    text-align: center;
 	box-sizing: border-box;
 	height: 60px;
 	width: 0px;
@@ -60,23 +65,21 @@ input {
 }
 
 .boton {
-	position: absolute;
-	right: 0px;
-	top: 0px;
+	position: relative;
+	right: 12%;
+	top: -52%;
 	width: 80px;
 	height: 80px;
-	line-height: 80px;
 	border-radius: 50%;
-	text-align: center;
 	cursor: pointer;
-	transition: .5s;
+	transition: .9s;
 }
 
 .boton img {
-	font-size: 25px;
+    width: 100%;
 	color: white;
 	line-height: 80px;
-	transition: all .7s ease;
+	transition: all .5s ease;
 }
 
 .buscador:hover input {
@@ -84,12 +87,11 @@ input {
 }
 
 .boton:hover img{
-	transform: rotate(-180deg);
+	transform: rotate(180deg);
 }
 
 .contenedor {
     padding: 40px;
-    padding-top: 200px;
     margin: 0 auto;
 }
 
