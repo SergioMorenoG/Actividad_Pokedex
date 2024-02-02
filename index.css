@@ -38,7 +38,7 @@ body {
     position: flex;
     margin: 70px 0 70px;
     justify-content: center;
-    
+
 }
 
 .contenedor {
@@ -59,14 +59,21 @@ body {
 
 .card-title {
     text-transform: uppercase;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: normal;
-    margin-bottom: 0;
+    margin-bottom: 5;
 }
 
-.card-subtitle {
-    font-weight: lighter;
-    color: #666;
+.card-subtitle-nombre {
+    font-weight: bold;
+    font-size: 25px;
+    color: black;
+    margin-top: 5px;
+}
+
+.card-subtitle-tipo {
+    font-weight: normal;
+    font-size: 20px;
     margin-top: 5px;
 }
 
@@ -103,4 +110,6 @@ body {
     }
 }
 
-@media (min-width: 720px) {}
+@media (min-width: 720px) {
+
+}
