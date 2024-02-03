@@ -27,7 +27,8 @@ const tipoPokemon = { // Traducimos los tipos al Español
   psychic: 'Psíquico',
   ice: 'Hielo',
   dragon: 'Dragón',
-  dark: 'Siniestro'
+  dark: 'Siniestro',
+  fairy: 'Hada'
 };
 
 Promise.all(listaPokemon).then(resultado => {
@@ -58,13 +59,16 @@ const mostrarPokemon = pokemon => {
     // Generamos una cadena HTML con los datos
     .map(
       pokemonData =>
-      // Creamos las tarjetas donde ponemos los datos
+        // Creamos las tarjetas donde ponemos los datos
         ` <li class="card"> 
       <img class="card-image" src="${pokemonData.image}"/>
       <h2 class="card-title">${pokemonData.id}</h2>
       <p class="card-subtitle-nombre">${pokemonData.name.charAt(0).toUpperCase()}${pokemonData.name.slice(1)}</p>
-      <p class="card-subtitle-tipo">${pokemonData.type}</p> 
-    </li> `
+      <p class="card-subtitle-tipo">${pokemonData.type
+        .split(" ")
+        .map((type) => `<span class="type ${type}" style="border-radius: 25px; padding: 10px 10px;">${type}</span>`)
+        .join(" ")}</p>
+    </li>`
     )
     .join("");
   pokedex.innerHTML = pokemonHTMLString;
