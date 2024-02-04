@@ -1,16 +1,26 @@
 const listaPokemon = [];
-// Array vacío que contendrá las peticiones a la API de los 151 Pokémon
-for (let i = 1; i <= 151; i++) {
-  // Bucle que muestra los 151 Pokémon
-  const datosPokemon = `https://pokeapi.co/api/v2/pokemon/${i}`;
-  // Sacamos los datos de la PokéAPI
+// Array vacío que contendrá las peticiones a la API de los 151 Pokémon.
 
-  listaPokemon.push(fetch(datosPokemon).then(lista => lista.json()));
-  // Con la función "fetch" obtenemos los datos en .json de la PokéAPI
-  // Convertimos los datos de .json a JavaScript y los ponemos en el array
+for (let i = 1; i <= 151; i++) {
+  // Bucle que hace las 151 peticiones de los Pokémon.
+
+  const URLPokemon = `https://pokeapi.co/api/v2/pokemon/${i}`;
+  // Ponemos en la variable "URLPokemon" la URL del Pokémon específico.
+
+  const peticion = fetch(URLPokemon);
+  // Con la función "fetch" realizamos la petición a la URL del Pokémon específico.
+
+  const datosPokemon = peticion.then(datos => datos.json());
+  // La función "then" se asegura que la petición se ha realizado con éxito antes
+  // de continuar, después convierte la respuesta de la petición a formato JSON
+  // y la almacena en la variable "datosPokemon".
+
+  listaPokemon.push(datosPokemon);
+  // La función "push" introduce los datos de la variable "datosPokemon" en la
+  // primera posición que esté disponible del array "listaPokemon".
 }
 
-const tipoPokemon = { // Traducimos los tipos al Español
+const tipoPokemon = { // Objeto en el que traducimos los tipos al Español.
   normal: 'Normal',
   fighting: 'Lucha',
   flying: 'Volador',
@@ -28,49 +38,74 @@ const tipoPokemon = { // Traducimos los tipos al Español
   ice: 'Hielo',
   dragon: 'Dragón',
   dark: 'Siniestro',
-  fairy: 'Hada'
 };
 
-Promise.all(listaPokemon).then(resultado => {
-  // Llamadas API asíncronas en paralelo mediante promesas
-  // Promise.all espera a que terminen todas las peticiones a la API
-  // Una vez terminada las peticiones, ejecuta el array "resultado" que tiene los datos del array "listaPokemon"
-  const pokemon = resultado.map(datos => ({
-    // De todos los datos de que contiene "resultado", nos quedamos solo los que necesitamos en el array "pokemon"
-    // Utilizando la función "map"
-    name: datos.name,
-    // Nombre del pokémon
-    id: String(datos.id).padStart(3, '0'),
-    id: `Nº ${String(datos.id).padStart(3, '0')}`,
-    // Número del pokémon, con la función "padStart" le decimos que tenga tres cifras y lo rellene de ceros
-    image: datos.sprites["front_default"],
-    // Imágen del pokémon
-    type: datos.types.map(type => tipoPokemon[type.type.name]).join(" "),
-    // Tipo del pokémon
-  }));
-  mostrarPokemon(pokemon);
-});
+Promise.all(listaPokemon)
+  // "Promise.all" se asegura que se han ejecutado con éxito todas las peticiones a la API.
 
-const mostrarPokemon = pokemon => {
-  // Función para mostrar los datos almacenados en el array "pokemon"
+  .then(resultado => {
+    // Una vez terminada las peticiones, ejecuta el array "resultado" que contiene 
+    // los datos del array "listaPokemon".
+
+    const pokemon = resultado.map(datos => {
+      // Con la función "map" creamos un nuevo array "pokemon" que contendrá solo los datos
+      // necesarios de cada pokémon específico.
+      // Para hacerlo, creamos un objeto "datos" con las propiedades necesarias de cada pokémon.
+
+      const pokemonData = {
+        // Separamos el tipo del pokémon de las demás propiedades.
+
+        name: datos.name,
+        // Nombre del pokémon.
+
+        id: `Nº ${String(datos.id).padStart(3, '0')}`,
+        // Número del pokémon, con la función "padStart" nos aseguramos de que tenga tres cifras
+        // y rellenamos de ceros las cifras que falten.
+        // Convertimos el número a una cadena con "String" para representarlo junto a "Nº".
+
+        image: datos.sprites.versions['generation-iii'].emerald['front_default'],
+        // Imagen del pokémon.
+      };
+
+      if (datos.past_types.length > 0) {
+        pokemonData.type = datos.past_types[0].types.map(type => tipoPokemon[type.type.name])
+          .join(" ");
+        // Si el tipo del pokémon antes era otro, se asignará el antiguo.
+
+      } else {
+        pokemonData.type = datos.types.map(type => tipoPokemon[type.type.name]).join(" ");
+        // Si no tiene uno antiguo, se asignará con normalidad el tipo.
+      }
+      return pokemonData;
+      // Se devuelven los datos para agregarlos al array "pokemon".
+    });
+    mostrarPokemon(pokemon);
+    // Llamamos a la función "mostrarPokemon" con los datos del array "pokemon".
+  });
+
+function mostrarPokemon(pokemon) {
+  // Función para mostrar los datos almacenados en el array "pokemon".
+
   console.log(pokemon);
-  // Mostramos por consola los datos, para verificar que no hay errores
-  const pokemonHTMLString = pokemon
-    // Generamos una cadena HTML con los datos
-    .map(
-      pokemonData =>
-        // Creamos las tarjetas donde ponemos los datos
-        ` <li class="card"> 
+  // Mostramos por consola los datos, para verificar que no hay errores.
+
+  const pokemonHTMLString = pokemon.map(pokemonData =>
+    // Generamos una cadena HTML utilizando "map" en el array "pokemon".
+    // Creamos las tarjetas donde ponemos los datos.
+
+    ` <li class="card"> 
       <img class="card-image" src="${pokemonData.image}"/>
       <h2 class="card-title">${pokemonData.id}</h2>
-      <p class="card-subtitle-nombre">${pokemonData.name.charAt(0).toUpperCase()}${pokemonData.name.slice(1)}</p>
-      <p class="card-subtitle-tipo">${pokemonData.type
-        .split(" ")
-        .map((type) => `<span class="type ${type}" style="border-radius: 25px; padding: 10px 10px;">${type}</span>`)
-        .join(" ")}</p>
-    </li>`
-    )
-    .join("");
+      <p class="card-subtitle-nombre">${pokemonData.name.charAt(0).toUpperCase()}${pokemonData.name
+      .slice(1)}</p>
+      <p class="card-subtitle-tipo">${pokemonData.type.split(" ").map((type) =>
+        `<span class="type ${type}" style="border-radius: 26px; padding: 12px 12px;">${type}</span>`)
+      .join(" ")}</p></li>`).join("");
+  // Con "charAt", "toUpperCase" y "slice(1)" ponemos la primera letra del nombre del pokémon en mayúscula.
+  // Con "split" separamos el tipo en dos elementos distintos para darles un color diferente.
+  // Con el primer "join" volvemos a unir los tipos del pokémon y les damos un espacio entre ellos.
+  // El segundo "join" une todas las cadenas HTML de los distintos pokémon en una sola cadena.
+
   pokedex.innerHTML = pokemonHTMLString;
-  // Metemos los datos en la lista "pokedex" del HTML
+  // Introducimos la cadena HTML en el elemento "pokedex".
 };
