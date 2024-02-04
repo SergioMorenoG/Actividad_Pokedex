@@ -34,8 +34,14 @@ body.oscuro .card-subtitle-nombre {
     color: whitesmoke;
 }
 
+body.oscuro .textoSinResultado {
+    color: whitesmoke;
+}
 
-
+body.oscuro input {
+    color: whitesmoke;
+    background-color: rgb(82, 80, 80);
+}
 
 #encabezado {
     display: flex;
