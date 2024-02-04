@@ -139,3 +139,13 @@ function mostrarPokemon(pokemon) {
   pokedex.innerHTML = pokemonHTMLString;
   // Introducimos la cadena HTML en el elemento "pokedex".
 };
+
+const temaPagina = document.querySelector('#boton-tema');
+  // Creamos una variable que acceda al id del botón.
+
+temaPagina.addEventListener('click', () => {
+  // Esta función se activa cuando el usuario da lick al botón.
+  document.body.classList.toggle('oscuro');
+  temaPagina.classList.toggle('active');
+    // Cambiamos el tipo de los elementos body a "oscuro" y ponemos el tema en activo para que el botón se actualice.
+})
