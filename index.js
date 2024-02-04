@@ -1,5 +1,8 @@
-const listaPokemon = [];
-// Array vacío que contendrá las peticiones a la API de los 151 Pokémon.
+let listaPokemon = [];
+// Array vacío que contendrá las promesas de las peticiones a la API de los 151 Pokémon.
+
+let listaPokemonFiltrada = [];
+// Array vacío que contendrá los pokémon filtrados por el buscador.
 
 for (let i = 1; i <= 151; i++) {
   // Bucle que hace las 151 peticiones de los Pokémon.
@@ -63,8 +66,8 @@ Promise.all(listaPokemon)
         // y rellenamos de ceros las cifras que falten.
         // Convertimos el número a una cadena con "String" para representarlo junto a "Nº".
 
-        image: datos.sprites.versions['generation-iii'].emerald['front_default'],
-        // Imagen del pokémon.
+        image: datos.sprites.versions['generation-iii']['firered-leafgreen']['front_default'],
+        // URL de la imagen del pokémon.
       };
 
       if (datos.past_types.length > 0) {
@@ -76,12 +79,39 @@ Promise.all(listaPokemon)
         pokemonData.type = datos.types.map(type => tipoPokemon[type.type.name]).join(" ");
         // Si no tiene uno antiguo, se asignará con normalidad el tipo.
       }
+
       return pokemonData;
       // Se devuelven los datos para agregarlos al array "pokemon".
     });
+
+    listaPokemonFiltrada = pokemon.map((datos) => datos);
+    // Copiamos los datos del array "pokemon" al array "listaPokemonFiltrada".
+
     mostrarPokemon(pokemon);
     // Llamamos a la función "mostrarPokemon" con los datos del array "pokemon".
   });
+
+function buscarPokemon() {
+  // Función para filtrar los pokémon al realizar una búsqueda.
+
+  const nombreIntroducido = document.getElementById('searchInput').value.toLowerCase();
+  // Obtiene el nombre y lo convierte a minúsculas, luego lo guarda en "nombreIntroducido".
+
+  const resultado = listaPokemonFiltrada.filter(pokemon => pokemon.name && pokemon.name.toLowerCase()
+    .includes(nombreIntroducido));
+  // Con la función "filter" filtra la lista de Pokémon del array "listaPokemonFiltrada" y se
+  // asegura de que los nombres de los pokémon en el array estén en minúsculas para que coincidan.
+  // La función "includes" verifica si el nombre introducido está en el array "listaPokemonFiltrada".
+
+  if (resultado.length > 0) {
+    mostrarPokemon(resultado);
+    // Si hay algún pokémon que en su nombre esté el texto introducido, se mostrarán.
+
+  } else {
+    pokedex.innerHTML = '<p class="textoSinResultado">No se ha encontrado ningún Pokémon.</p>';
+    // Si no encuentra nada, muestra un mensaje.
+  }
+}
 
 function mostrarPokemon(pokemon) {
   // Función para mostrar los datos almacenados en el array "pokemon".

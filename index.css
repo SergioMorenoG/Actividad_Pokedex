@@ -43,51 +43,51 @@ body {
 }
 
 .buscador {
-	padding: 10px;
+    padding: 10px;
 }
 
 input {
-	outline: none;
+    outline: none;
     text-align: center;
-	box-sizing: border-box;
-	height: 60px;
-	width: 0px;
-	padding: 0 20px;
-	color: #000;
-	border-radius: 50px;
-	font-size: 20px;
-	border: 1px solid #9b2121;
-	transition: all .7s ease;
+    box-sizing: border-box;
+    height: 60px;
+    width: 0px;
+    padding: 0 20px;
+    color: #000;
+    border-radius: 50px;
+    font-size: 20px;
+    border: 1px solid #9b2121;
+    transition: all .7s ease;
 }
 
 ::placeholder {
-	color: grey;
+    color: grey;
 }
 
 .boton {
-	position: relative;
-	right: 12%;
-	top: -52%;
-	width: 80px;
-	height: 80px;
-	border-radius: 50%;
-	cursor: pointer;
-	transition: .9s;
+    position: relative;
+    right: 12%;
+    top: -52%;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: .9s;
 }
 
 .boton img {
     width: 100%;
-	color: white;
-	line-height: 80px;
-	transition: all .5s ease;
+    color: white;
+    line-height: 80px;
+    transition: all .5s ease;
 }
 
 .buscador:hover input {
-	width: 350px;
+    width: 350px;
 }
 
-.boton:hover img{
-	transform: rotate(180deg);
+.boton:hover img {
+    transform: rotate(180deg);
 }
 
 .contenedor {
@@ -194,12 +194,16 @@ input {
     background-color: #6f38f6;
 }
 
-.Hada {
-    background-color: #f9aec7;
-}
-
 .card-image {
     height: 180px;
+}
+
+.textoSinResultado {
+    font-weight: bold;
+    font-size: 30px;
+    color: black;
+    text-align: center;
+    margin-top: 75px;
 }
 
 #pokedex {
