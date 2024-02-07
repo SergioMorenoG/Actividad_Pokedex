@@ -23,12 +23,10 @@ Promise.all(obtenerDatosPokemon())
         name: datos.name,
         // Nombre del pokémon.
 
-        id: `Nº ${String(datos.id).padStart(3, '0')}`,
-        // Número del pokémon, con la función "padStart" nos aseguramos de que tenga tres cifras
-        // y rellenamos de ceros las cifras que falten.
-        // Convertimos el número a una cadena con "String" para representarlo junto a "Nº".
+        id: datos.id,
+        // Número del pokémon.
 
-        image: datos.sprites.versions['generation-iii']['firered-leafgreen']['front_default'],
+        image: datos.sprites.other['official-artwork']['front_default'],
         // URL de la imagen del pokémon.
       };
 

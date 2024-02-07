@@ -77,7 +77,7 @@ function filtrarPokemon() {
 }
 
 function mostrarPokemon(pokemon) {
-    // Función para mostrar los datos almacenados en el array "pokemon".
+    // Función para mostrar los datos en la lista de los 151 Pokémon.
 
     console.log(pokemon);
     // Mostramos por consola los datos, para verificar que no hay errores.
@@ -86,22 +86,123 @@ function mostrarPokemon(pokemon) {
         // Generamos una cadena HTML utilizando "map" en el array "pokemon".
         // Creamos las tarjetas donde ponemos los datos.
 
-        ` <li class="card"> 
+        ` <a href="index2.html"><li class="card"> 
       <img class="card-image" src="${pokemonData.image}"/>
-      <h2 class="card-title">${pokemonData.id}</h2>
+      <h2 class="card-title">Nº ${String(pokemonData.id).padStart(3, '0')}</h2>
       <p class="card-subtitle-nombre">${pokemonData.name.charAt(0).toUpperCase()}${pokemonData.name
             .slice(1)}</p>
       <p class="card-subtitle-tipo">${pokemonData.type.split(" ").map((type) =>
                 `<span class="type ${type}" style="border-radius: 26px; padding: 12px 12px;">${type}</span>`)
-            .join(" ")}</p></li>`).join("");
+            .join(" ")}</p></li></a>`).join("");
+    // Con "padStart" nos aseguramos de que tenga tres cifras y rellenamos de ceros las cifras que falten.
     // Con "charAt", "toUpperCase" y "slice(1)" ponemos la primera letra del nombre del pokémon en mayúscula.
     // Con "split" separamos el tipo en dos elementos distintos para darles un color diferente.
     // Con el primer "join" volvemos a unir los tipos del pokémon y les damos un espacio entre ellos.
-    // El segundo "join" une todas las cadenas HTML de los distintos pokémon en una sola cadena.
+    // El segundo "join" une todas las tarjetas de los distintos pokémon para que estén juntas.
 
     pokedex.innerHTML = pokemonHTMLString;
     // Introducimos la cadena HTML en el elemento "pokedex".
-};
+
+    const cards = pokedex.getElementsByClassName("card");
+    // Creamos la variable "cards" para almacenar la lista de todas las tarjetas.
+
+    Array.from(cards).forEach((tarjeta, indice) => {
+        // Convertimos "cards" en un array con la función "Array.from".
+        // Con "forEach" hacemos que se ejecute una función por cada tarjeta.
+
+        tarjeta.addEventListener("click", () => {
+            // Agregamos un evento de click en cada tarjeta.
+
+            const pokemonId = pokemon[indice].id;
+            // Obtenemos el número del pokémon que ha sido seleccionado.
+
+            sessionStorage.setItem("numeroPokemon", pokemonId);
+            // Guardamos el número del pokémon en la sesión del navegador.
+        });
+    });
+}
+
+function mostrarDatosDeUnPokemon(pokemon) {
+    // Función para mostrar los datos de un único Pokémon.
+
+    console.log(pokemon);
+    // Mostramos por consola los datos, para verificar que no hay errores.
+
+    const pokemonHTMLString =
+        // Generamos una cadena HTML y creamos la tarjeta donde ponemos los datos.
+
+        ` <li class="card"> 
+            <img class="card-image" src="${pokemon.image}"/>
+            <p class="card-subtitle-nombre">${pokemon.name.charAt(0).toUpperCase()}${pokemon.name.slice(1)}</p>
+            <p class="card-title">Nº ${String(pokemon.id).padStart(3, '0')}</p>
+            <p class="card-subtitle-tipo">${pokemon.type.split(" ").map((type) =>
+            `<span class="type ${type}" style="border-radius: 26px; padding: 12px 12px;">${type}</span>`)
+            .join(" ")}</p>
+            <p class="card-subtitle-peso">Peso: ${pokemon.weight}</p>
+            <p class="card-subtitle-altura">Altura: ${pokemon.height}</p>
+            <p class="card-subtitle-descripcion">${pokemon.descripcion}</p>
+        </li>`;
+    // Con "charAt", "toUpperCase" y "slice(1)" ponemos la primera letra del nombre del pokémon en mayúscula.
+    // Con "padStart" nos aseguramos de que tenga tres cifras y rellenamos de ceros las cifras que falten.
+    // Con "split" separamos el tipo en dos elementos distintos para darles un color diferente.
+    // Con "join" volvemos a unir los tipos del pokémon y les damos un espacio entre ellos.
+
+    pokedex.innerHTML = pokemonHTMLString;
+    // Introducimos la cadena HTML en el elemento "pokedex".
+}
+
+async function obtenerDatosDeUnPokemon(pokemon) {
+    // Función para obtener los datos de un único pokémon.
+
+    const URLPokemon = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
+    // Ponemos en la variable "URLPokemon" la URL del Pokémon específico.
+
+    const datos = await fetch(URLPokemon);
+    // Con la función "fetch" realizamos la petición a la URL del Pokémon específico.
+
+    const pokemonData = await datos.json();
+    // Se convierte la respuesta de la petición a formato JSON y se almacena en "pokemonData". 
+
+    console.log(pokemonData);
+    // Mostramos por consola los datos, para verificar que no hay errores.
+
+    return pokemonData;
+    // Se devuelven los datos.
+}
+
+async function obtenerDatosAvanzadosDeUnPokemon(pokemon) {
+    // Función para obtener los datos avanzados de un único pokémon.
+
+    const URLPokemon = `https://pokeapi.co/api/v2/pokemon-species/${pokemon}`;
+    // Ponemos en la variable "URLPokemon" la URL del Pokémon específico.
+
+    const datos = await fetch(URLPokemon);
+    // Con la función "fetch" realizamos la petición a la URL del Pokémon específico.
+
+    const pokemonData = await datos.json();
+    // Se convierte la respuesta de la petición a formato JSON y se almacena en "pokemonData".
+
+    console.log(pokemonData);
+    // Mostramos por consola los datos, para verificar que no hay errores.
+
+    return pokemonData;
+    // Se devuelven los datos.
+}
+
+function descripcion(datosAvanzados) {
+    // Función para obtener la descripción de los pokémon.
+
+    for (let descripciones of datosAvanzados.flavor_text_entries) {
+        // Bucle que buscará en el array que contiene todas las descripciones.
+
+        if (descripciones.language.name === "es") {
+            return descripciones.flavor_text;
+            // Si el nombre de la descripción tiene "es" estará en español y la devuelve.
+        }
+    }
+    return "";
+    // Si no la encuentra, devuelve una cadena vacía.
+}
 
 function cambiarTema() {
     // Función para cambiar de modo claro a modo oscuro.
