@@ -20,8 +20,14 @@ body {
 }
 
 a {
+    color: black;
     text-decoration: none;
 }
+
+a:visited {
+    color: black;
+}
+
 
 body.oscuro {
     background: rgb(53, 53, 53);
@@ -121,6 +127,11 @@ body.oscuro input {
     text-align: center;
 }
 
+.card-image {
+    width: 250px;
+    height: auto;
+}
+
 .card-title {
     text-transform: uppercase;
     font-size: 20px;
@@ -134,6 +145,8 @@ body.oscuro input {
     font-size: 25px;
     color: black;
     margin: 20px;
+    margin-top: 15px;
+    margin-bottom: 35px;
 }
 
 .card-subtitle-peso {
@@ -141,7 +154,6 @@ body.oscuro input {
     font-weight: normal;
     color: black;
     margin-top: 35px;
-
 }
 
 .card-subtitle-altura {
@@ -155,7 +167,72 @@ body.oscuro input {
     font-size: 20px;
     font-weight: normal;
     color: black;
+    margin-top: 35px;
+}
+
+.card-subtitle-estadisticas-nombre {
+    font-size: 20px;
+    font-weight: normal;
+    color: black;
+    margin-top: 50px;
+}
+
+.card-subtitle-estadisticas {
+    font-size: 20px;
+    font-weight: normal;
+    color: black;
+    margin-top: 15px;
+}
+
+.card-subtitle-evoluciones {
+    font-size: 20px;
+    font-weight: normal;
+    color: black;
+    margin-top: 35px;
+    margin-bottom: 15px;
+}
+
+.evoluciones {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.evolucion {
+    display: flex;
+    flex-direction: row;
+    margin: 35px;
     margin-top: 5px;
+}
+
+.evolucion-nombre {
+    font-size: 22px;
+    font-weight: normal;
+    color: black;
+}
+
+.evolucion-nombre-actual {
+    font-weight: bold;
+    font-size: 22px;
+    color: black;
+}
+
+.arrow {
+    font-size: 35px;
+    font-weight: bold;
+    margin: 30px;
+    margin-top: 60px;
+    margin-left: 85px;
+}
+
+.evolucion-image {
+    width: 175px;
+    height: auto;
+}
+
+.barra-progreso {
+    margin-left: 10px;
+    font-size: 20px;
 }
 
 .Normal {
@@ -224,10 +301,6 @@ body.oscuro input {
 
 .Dragón {
     background-color: #6f38f6;
-}
-
-.card-image {
-    height: 180px;
 }
 
 #pokedex {
