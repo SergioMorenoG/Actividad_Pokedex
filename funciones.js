@@ -406,7 +406,7 @@ function descripcion(datosAvanzados) {
 function cambiarTema() {
     // Función para cambiar de modo claro a modo oscuro.
 
-    const temaPagina = document.querySelector('#boton-tema');
+    const temaPagina = document.getElementById('boton-tema');
     // Creamos una variable que acceda al id del botón.
 
     temaPagina.addEventListener('click', () => {
