@@ -34,23 +34,25 @@ body.oscuro {
 }
 
 body.oscuro .card {
-    background: rgb(55, 60, 62);
+    background: rgb(109, 102, 102);
     color: whitesmoke;
     border: 2px solid rgb(222, 222, 222);
     box-shadow: 0px 5px 5px rgb(81, 80, 80);
 }
 
-body.oscuro .card-subtitle-nombre {
+body.oscuro .boton,
+body.oscuro .card-subtitle-nombre,
+body.oscuro .card-subtitle-peso,
+body.oscuro .card-subtitle-altura,
+body.oscuro .card-subtitle-descripcion,
+body.oscuro .card-subtitle-estadisticas-nombre,
+body.oscuro .card-subtitle-estadisticas,
+body.oscuro .card-subtitle-evoluciones,
+body.oscuro .evolucion-nombre,
+body.oscuro .card-subtitle-tipo,
+body.oscuro .evolucion-nombre-actual,
+body.oscuro .evoTrigger {
     color: whitesmoke;
-}
-
-body.oscuro .textoSinResultado {
-    color: whitesmoke;
-}
-
-body.oscuro input {
-    color: whitesmoke;
-    background-color: rgb(82, 80, 80);
 }
 
 #encabezado {
@@ -67,6 +69,10 @@ body.oscuro input {
     background: linear-gradient(rgba(25, 41, 41, 0.6), rgba(25, 41, 41, 0.6)), url(imgs/img-encabezado.jpg);
     background-size: cover;
     background-position: center;
+}
+
+.boton  {
+    color: black;
 }
 
 .boton-link {
@@ -176,7 +182,6 @@ body.oscuro input {
     transition: .3s ease all;
 }
 
-
 .tema-pag.active {
     background-color: orange;
 
@@ -256,11 +261,35 @@ body.oscuro input {
     font-weight: normal;
     color: black;
     margin-top: 50px;
-    padding-top: 20px;
+    padding-top: 30px;
     border-top: 5px dotted rgb(76, 72, 72);
 }
 
+.estadisticas-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.estadistica-item {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+}
+
+.barra-progreso {
+    font-size: 20px;
+    margin: 5px;
+}
+
 .card-subtitle-estadisticas {
+    font-size: 20px;
+    font-weight: normal;
+    color: black;
+    margin: 5px;
+}
+
+.card-subtitle-estadisticas-total {
     font-size: 20px;
     font-weight: normal;
     color: black;
@@ -272,7 +301,7 @@ body.oscuro input {
     font-weight: normal;
     color: black;
     margin-top: 35px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     padding-top: 20px;
     border-top: 5px dotted rgb(76, 72, 72);
 }
@@ -291,33 +320,47 @@ body.oscuro input {
 }
 
 .evolucion-nombre {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: normal;
     color: black;
 }
 
 .evolucion-nombre-actual {
     font-weight: bold;
-    font-size: 22px;
+    font-size: 20px;
     color: black;
 }
 
+.evolucion-metodo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.evolucion-contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 35px;
+}
+
 .arrow {
-    font-size: 35px;
+    font-size: 25px;
     font-weight: bold;
-    margin: 30px;
-    margin-top: 60px;
-    margin-left: 85px;
+    margin-top: 5px;
+}
+
+.evoTrigger {
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+    margin-right: 5px;
+    margin-bottom: 5px;
 }
 
 .evolucion-image {
-    width: 175px;
+    width: 150px;
     height: auto;
-}
-
-.barra-progreso {
-    margin-left: 10px;
-    font-size: 20px;
 }
 
 .Normal {
@@ -393,8 +436,4 @@ body.oscuro input {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     grid-gap: 20px;
-}
-
-@media (min-width: 720px) {
-    
 }

@@ -54,6 +54,61 @@ function tiposTraducidos() {
     // Se devuelven los tipos ya traducidos.
 }
 
+function metodosTraducidos(datos) {
+    // Función para traducir los métodos de evolución al Español.
+
+    let listaMetodosTraducidos = [];
+    // Array vacío que contendrá los métodos de evolución.
+
+    for (let pokemon of datos) {
+        // Bucle que muestra todas las evoluciones del Pokémon.
+
+        if (pokemon.trigger_name == "level-up") {
+            pokemon.trigger_name = "Nivel";
+
+        }
+
+        if (pokemon.trigger_name == "trade") {
+            pokemon.trigger_name = "Intercambio";
+        }
+
+        if (pokemon.trigger_name == "use-item") {
+            pokemon.trigger_name = "Usar";
+        }
+
+        if (pokemon.item != null) {
+            // Para los Pokémon que necesitan una piedra evolutiva.
+
+            if (pokemon.item.name == "leaf-stone") {
+                pokemon.item.name = "piedra hoja";
+            }
+
+            if (pokemon.item.name == "fire-stone") {
+                pokemon.item.name = "piedra fuego";
+            }
+
+            if (pokemon.item.name == "moon-stone") {
+                pokemon.item.name = "piedra lunar";
+            }
+
+            if (pokemon.item.name == "water-stone") {
+                pokemon.item.name = "piedra Agua";
+            }
+
+            if (pokemon.item.name == "thunder-stone") {
+                pokemon.item.name = "piedra trueno";
+            }
+
+        }
+
+        listaMetodosTraducidos.push(pokemon);
+        // Almacenamos en el array con "push" los métodos ya traducidos.
+    }
+
+    return listaMetodosTraducidos;
+    // Se devuelve la lista.
+}
+
 function estadisticas(pokemonData) {
     // Función para obtener las estadísticas del Pokémon.
 
@@ -147,6 +202,24 @@ function mostrarDatosDeUnPokemon(pokemon) {
     console.log(pokemon);
     // Mostramos por consola los datos, para verificar que no hay errores.
 
+    if (pokemon.id == 106) {
+        pokemon.evoluciones.splice(1, 1);
+        pokemon.evolucionesImagenes.splice(1, 1);
+        pokemon.evolucionesNumeros.splice(1, 1);
+        pokemon.evolucionesTipos.splice(1, 1);
+        // Con la función "splice" eliminamos datos de un array.
+        // Si el Pokémon es "Hitmonlee" elimina a "Hitmonchan" para que no lo muestre como su evolución.
+    }
+
+    if (pokemon.id == 107) {
+        pokemon.evoluciones.splice(0, 1);
+        pokemon.evolucionesImagenes.splice(0, 1);
+        pokemon.evolucionesNumeros.splice(0, 1);
+        pokemon.evolucionesTipos.splice(0, 1);
+        // Con la función "splice" eliminamos datos de un array.
+        // Si el Pokémon es "Hitmonchan" elimina a "Hitmonlee" para que no lo muestre como su evolución.
+    }
+
     const pokemonHTMLString =
         // Generamos una cadena HTML y creamos la tarjeta donde ponemos los datos.
 
@@ -154,41 +227,100 @@ function mostrarDatosDeUnPokemon(pokemon) {
             <img class="card-image" src="${pokemon.image}"/>
             <p class="card-subtitle-nombre">${pokemon.name.charAt(0).toUpperCase()}${pokemon.name.slice(1)}</p>
             <p class="card-title">Nº ${String(pokemon.id).padStart(3, '0')}</p>
-            <p class="card-subtitle-tipo">${pokemon.type.split(" ").map((type) =>
-            `<span class="type ${type}" style="border-radius: 26px; padding: 12px 12px;">${type}</span>`)
-            .join(" ")}</p>
+            <p class="card-subtitle-tipo">${pokemon.type.split(" ").map((type) => `<span class="type ${type}" style="border-radius: 26px; padding: 12px 12px;">${type}</span>`).join(" ")}</p>
             <p class="card-subtitle-peso">- Peso: ${pokemon.weight}</p>
             <p class="card-subtitle-altura">- Altura: ${pokemon.height}</p>
             <p class="card-subtitle-descripcion">- Descripción:</p>
             <p class="card-subtitle-descripcion">${pokemon.descripcion}</p>
             <p class="card-subtitle-estadisticas-nombre">- Estadísticas Base:</p>
-            <p class="card-subtitle-estadisticas">PS 🠚 ${pokemon.stats.hp}<progress class="barra-progreso" value="${pokemon.stats.hp}" max="255"></progress></p>
-            <p class="card-subtitle-estadisticas">Ataque 🠚 ${pokemon.stats.attack}<progress class="barra-progreso" value="${pokemon.stats.attack}" max="255"></progress></p>
-            <p class="card-subtitle-estadisticas">Defensa 🠚 ${pokemon.stats.defense}<progress class="barra-progreso" value="${pokemon.stats.defense}" max="255"></progress></p>
-            <p class="card-subtitle-estadisticas">At. esp. 🠚 ${pokemon.stats.specialAttack}<progress class="barra-progreso" value="${pokemon.stats.specialAttack}" max="255"></progress></p>
-            <p class="card-subtitle-estadisticas">Def. esp. 🠚 ${pokemon.stats.specialDefense}<progress class="barra-progreso" value="${pokemon.stats.specialDefense}" max="255"></progress></p>
-            <p class="card-subtitle-estadisticas">Velocidad 🠚 ${pokemon.stats.speed}<progress class="barra-progreso" value="${pokemon.stats.speed}" max="255"></progress></p>
-            <p class="card-subtitle-estadisticas">Total: ${pokemon.stats.total}</p>
+            <div class="estadisticas-container">
+                <div class="estadistica-item">
+                    <p class="card-subtitle-estadisticas">PS</p>
+                    <p class="card-subtitle-estadisticas">🠚</p>
+                    <p class="card-subtitle-estadisticas">${pokemon.stats.hp}</p>
+                    <progress class="barra-progreso" value="${pokemon.stats.hp}" max="255"></progress>
+                </div>
+                <div class="estadistica-item">
+                    <p class="card-subtitle-estadisticas">Ataque</p>
+                    <p class="card-subtitle-estadisticas">🠚</p>
+                    <p class="card-subtitle-estadisticas">${pokemon.stats.attack}</p>
+                    <progress class="barra-progreso" value="${pokemon.stats.attack}" max="255"></progress>
+                </div>
+                <div class="estadistica-item">
+                    <p class="card-subtitle-estadisticas">Defensa</p>
+                    <p class="card-subtitle-estadisticas">🠚</p>
+                    <p class="card-subtitle-estadisticas">${pokemon.stats.defense}</p>
+                    <progress class="barra-progreso" value="${pokemon.stats.defense}" max="255"></progress>
+                </div>
+                <div class="estadistica-item">
+                    <p class="card-subtitle-estadisticas">At. esp.</p>
+                    <p class="card-subtitle-estadisticas">🠚</p>
+                    <p class="card-subtitle-estadisticas">${pokemon.stats.specialAttack}</p>
+                    <progress class="barra-progreso" value="${pokemon.stats.specialAttack}" max="255"></progress>
+                </div>
+                <div class="estadistica-item">
+                        <p class="card-subtitle-estadisticas">Def. esp.</p>
+                        <p class="card-subtitle-estadisticas">🠚</p>
+                        <p class="card-subtitle-estadisticas">${pokemon.stats.specialDefense}</p>
+                        <progress class="barra-progreso" value="${pokemon.stats.specialDefense}" max="255"></progress>
+                </div>
+                <div class="estadistica-item">
+                        <p class="card-subtitle-estadisticas">Velocidad</p>
+                        <p class="card-subtitle-estadisticas">🠚</p>
+                        <p class="card-subtitle-estadisticas">${pokemon.stats.speed}</p>
+                        <progress class="barra-progreso" value="${pokemon.stats.speed}" max="255"></progress>
+                </div>
+            </div>
+            <p class="card-subtitle-estadisticas-total">Total: ${pokemon.stats.total}</p>
             <p class="card-subtitle-evoluciones">- Evoluciones:</p>
             <div class="evoluciones"> ${pokemon.evoluciones.map((evolucion, indice) => `
-                <div class="evolucion" id="evolucion-${indice}">
+                <div class="evolucion">
                     <a href="index2.html" class="evolucion-link">
                         <div class="evolucion-info">
-
                             <img class="evolucion-image" src="${pokemon.evolucionesImagenes[indice]}"/>
-
-                            ${pokemon.name === evolucion ? `<p class="evolucion-nombre-actual">
-                            ${evolucion.charAt(0).toUpperCase()}${evolucion.slice(1)}</p>` : `<p class="evolucion-nombre">${evolucion.charAt(0).toUpperCase()}${evolucion.slice(1)}</p>`}
-
-                            <p class="card-subtitle-tipo">${pokemon.evolucionesTipos[indice].split(" ").map((type) =>
-                            `<span class="type ${type}" style="border-radius: 26px; padding: 12px 12px;">${type}</span>`)
-                            .join(" ")}</p>
-
+                            ${pokemon.name === evolucion ? `<p class="evolucion-nombre-actual"> ${evolucion.charAt(0).toUpperCase()}${evolucion.slice(1)}</p>` : `<p class="evolucion-nombre">${evolucion.charAt(0).toUpperCase()}${evolucion.slice(1)}</p>`}
+                            <p class="card-subtitle-tipo">${pokemon.evolucionesTipos[indice].split(" ").map((type) => `<span class="type ${type}" style="border-radius: 26px; padding: 12px 12px;">${type}</span>`).join(" ")}</p>
                         </div>
                     </a>
-                    ${indice < pokemon.evoluciones.length - 1 ? '<p class="arrow">⮕</p>' : ''}
-                </div>
-                `).join("")}
+                    <div class="${pokemon.evoluciones.length > 1 ? 'evolucion-contenedor' : ''}">
+                        <div class="evolucion-metodo">
+                        ${indice === 0 && pokemon.metodoEvoluciones[0] && pokemon.metodoEvoluciones[0].trigger_name !== null && pokemon.id !== "143" && pokemon.id !== "137" && pokemon.id !== "133" && pokemon.id !== "134" && pokemon.id !== "108" && pokemon.id !== "106" && pokemon.id !== "107" && pokemon.id !== "39" && pokemon.id !== "40" && pokemon.id !== "25"
+                        && pokemon.id !== "26" && pokemon.id !== "135" && pokemon.id !== "136" && pokemon.id !== "126" && pokemon.id !== "125" && pokemon.id !== "124" && pokemon.id !== "123" && pokemon.id !== "122" && pokemon.id !== "114" && pokemon.id !== "113" && pokemon.id !== "95" && pokemon.id !== "83" && pokemon.id !== "35" && pokemon.id !== "36"
+                        ? `<p class="evoTrigger">${pokemon.metodoEvoluciones[0].trigger_name}</p>` : ''}
+                    
+                        ${indice === 0 && pokemon.metodoEvoluciones[0] && pokemon.metodoEvoluciones[0].min_level !== null && pokemon.id !== "143" && pokemon.id !== "137" && pokemon.id !== "133" && pokemon.id !== "134" && pokemon.id !== "108" && pokemon.id !== "106" && pokemon.id !== "107" && pokemon.id !== "39" && pokemon.id !== "40" && pokemon.id !== "25"
+                        && pokemon.id !== "26" && pokemon.id !== "135" && pokemon.id !== "136" && pokemon.id !== "126" && pokemon.id !== "125" && pokemon.id !== "124" && pokemon.id !== "123" && pokemon.id !== "122" && pokemon.id !== "114" && pokemon.id !== "113" && pokemon.id !== "95" && pokemon.id !== "83" && pokemon.id !== "35" && pokemon.id !== "36"
+                        ? `<p class="evoTrigger">${pokemon.metodoEvoluciones[0].min_level}</p>` : ''}
+                    
+                        ${indice === 0 && pokemon.metodoEvoluciones[0] && pokemon.metodoEvoluciones[0].item !== null && pokemon.id !== "143" && pokemon.id !== "137" && pokemon.id !== "133" && pokemon.id !== "134" && pokemon.id !== "108" && pokemon.id !== "106" && pokemon.id !== "107" && pokemon.id !== "39" && pokemon.id !== "40" && pokemon.id !== "25"
+                        && pokemon.id !== "26" && pokemon.id !== "135" && pokemon.id !== "136" && pokemon.id !== "126" && pokemon.id !== "125" && pokemon.id !== "124" && pokemon.id !== "123" && pokemon.id !== "122" && pokemon.id !== "114" && pokemon.id !== "113" && pokemon.id !== "95" && pokemon.id !== "83" && pokemon.id !== "35" && pokemon.id !== "36"
+                        ? `<p class="evoTrigger">${pokemon.metodoEvoluciones[0].item.name}</p>` : ''}
+
+                        ${indice < pokemon.evoluciones.length - 1 && indice >= pokemon.evoluciones.length - 2 && pokemon.id !== "41" && pokemon.id !== "42" && pokemon.id !== "56" && pokemon.id !== "57" && pokemon.id !== "79" && pokemon.id !== "80" && pokemon.id !== "81" && pokemon.id !== "82" && pokemon.id !== "133" && pokemon.id !== "134"
+                        && pokemon.id !== "135" && pokemon.id !== "136" && pokemon.id !== "116" && pokemon.id !== "117" && pokemon.id !== "111" && pokemon.id !== "112" && pokemon.id !== "53" && pokemon.id !== "52" && pokemon.metodoEvoluciones.length > 1 && pokemon.metodoEvoluciones[1].trigger_name !== null
+                        ? `<p class="evoTrigger">${pokemon.metodoEvoluciones[1].trigger_name}</p>` : ''}
+                    
+                        ${indice < pokemon.evoluciones.length - 1 && indice >= pokemon.evoluciones.length - 2 && pokemon.id !== "41" && pokemon.id !== "42" && pokemon.id !== "56" && pokemon.id !== "57" && pokemon.id !== "79" && pokemon.id !== "80" && pokemon.id !== "81" && pokemon.id !== "82" && pokemon.id !== "133" && pokemon.id !== "134"
+                        && pokemon.id !== "135" && pokemon.id !== "136" && pokemon.id !== "116" && pokemon.id !== "117" && pokemon.id !== "111" && pokemon.id !== "112" && pokemon.id !== "53" && pokemon.id !== "52" && pokemon.metodoEvoluciones.length > 1 && pokemon.metodoEvoluciones[1].min_level !== null
+                        ? `<p class="evoTrigger">${pokemon.metodoEvoluciones[1].min_level}</p>` : ''}
+                    
+                        ${indice < pokemon.evoluciones.length - 1 && indice >= pokemon.evoluciones.length - 2 && pokemon.id !== "41" && pokemon.id !== "42" && pokemon.id !== "56" && pokemon.id !== "57" && pokemon.id !== "79" && pokemon.id !== "80" && pokemon.id !== "81" && pokemon.id !== "82" && pokemon.id !== "133" && pokemon.id !== "134"
+                        && pokemon.id !== "135" && pokemon.id !== "136" && pokemon.id !== "116" && pokemon.id !== "117" && pokemon.id !== "111" && pokemon.id !== "112" && pokemon.id !== "53" && pokemon.id !== "52" && pokemon.metodoEvoluciones.length > 1 && pokemon.metodoEvoluciones[1].item !== null
+                        ? `<p class="evoTrigger">${pokemon.metodoEvoluciones[1].item.name}</p>` : ''}
+
+                        ${(pokemon.id == "133" || pokemon.id == "134" || pokemon.id == "135" || pokemon.id == "136") && indice == 0 ? '<p class="arrow">⮕</p>' : ''}
+                        ${(pokemon.id == "133" || pokemon.id == "134" || pokemon.id == "135" || pokemon.id == "136") && indice == 1 ? `<p class="evoTrigger">${pokemon.metodoEvoluciones[0].trigger_name}</p>` : ''}
+                        ${(pokemon.id == "133" || pokemon.id == "134" || pokemon.id == "135" || pokemon.id == "136") && indice == 1 ? `<p class="evoTrigger">${pokemon.metodoEvoluciones[0].item.name}</p>` : ''}
+                        ${(pokemon.id == "133" || pokemon.id == "134" || pokemon.id == "135" || pokemon.id == "136") && indice == 2 ? `<p class="evoTrigger">${pokemon.metodoEvoluciones[1].trigger_name}</p>` : ''}
+                        ${(pokemon.id == "133" || pokemon.id == "134" || pokemon.id == "135" || pokemon.id == "136") && indice == 2 ? `<p class="evoTrigger">${pokemon.metodoEvoluciones[1].item.name}</p>` : ''}
+                        ${(pokemon.id == "133" || pokemon.id == "134" || pokemon.id == "135" || pokemon.id == "136") && indice == 3 ? `<p class="evoTrigger">${pokemon.metodoEvoluciones[2].trigger_name}</p>` : ''}
+                        ${(pokemon.id == "133" || pokemon.id == "134" || pokemon.id == "135" || pokemon.id == "136") && indice == 3 ? `<p class="evoTrigger">${pokemon.metodoEvoluciones[2].item.name}</p>` : ''}
+                        </div>
+                        <div class="flecha-contenedor">
+                        ${indice < pokemon.evoluciones.length - 1 && pokemon.id !== "133" && pokemon.id !== "134" && pokemon.id !== "135" && pokemon.id !== "136" ? '<p class="arrow">⮕</p>' : ''}
+                        </div>
+                    </div>
+                </div> `).join("")}
             </div>
         </div>`;
     // Con "charAt", "toUpperCase" y "slice(1)" ponemos la primera letra del nombre del pokémon en mayúscula.
@@ -196,18 +328,22 @@ function mostrarDatosDeUnPokemon(pokemon) {
     // Con "split" separamos el tipo en dos elementos distintos para darles un color diferente.
     // Con "join" volvemos a unir los tipos del pokémon y les damos un espacio entre ellos.
     // En "evoluciones", se usa "map" para poder mostrar todas las evoluciones y sus imágenes, creando una tarjeta para cada una.
-    // Se utiliza un operador ternario para poner en negrita el nombre del Pokémon de la cadena evolutiva si es el mismo que el de la ficha.
+    // Se utiliza un operador ternario para los Pokémon que tienen evoluciones, aplicarles otros estilos.
+    // Se utiliza otro operador ternario para poner en negrita el nombre del Pokémon de la cadena evolutiva si es el mismo que el de la ficha.
     // Se utiliza otro operador ternario para mostrar una flecha en caso de que el Pokémon tenga una evolución.
+    // Se utilizan varios operadores ternarios para mostrar los métodos evolutivos y poner los datos correctos en el caso de los Pokémon con evoluciones fuera de Kanto.
+    // Se utilizan unos últimos operadores ternarios para mostrar los datos correctos en el caso de Eevee.
     // Con el segundo "join" unimos las tarjetas de las evoluciones de los Pokémon.
 
     pokedex.innerHTML = pokemonHTMLString;
     // Introducimos la cadena HTML en el elemento "pokedex".
 
-    const cards = document.querySelectorAll('.evolucion-link');
+    const cards = document.getElementsByClassName('evolucion-link');
     // Creamos la variable "cards" para almacenar la lista de todas las tarjetas de evoluciones del Pokémon.
 
-    cards.forEach((tarjeta, indice) => {
-        // Con "forEach" hacemos que se ejecute por cada tarjeta.  
+    Array.from(cards).forEach((tarjeta, indice) => {
+        // Convertimos "cards" en un array con la función "Array.from".
+        // Con "forEach" hacemos que se ejecute por cada tarjeta. 
 
         tarjeta.addEventListener('click', () => {
             // Agregamos un evento de click en cada tarjeta.
@@ -269,6 +405,9 @@ async function obtenerEvolucionesDelPokemon(pokemon) {
     let listaPokemonEvoluciones = [];
     // Array vacío que contendrá las evoluciones del Pokémon.
 
+    let listaPokemonMetodosEvoluciones = [];
+    // Array vacío que contendrá los métodos de las evoluciones del Pokémon.
+
     const URLPokemon = pokemon.evolution_chain.url;
     // Ponemos en la variable "URLPokemon" la URL del Pokémon específico.
 
@@ -288,20 +427,54 @@ async function obtenerEvolucionesDelPokemon(pokemon) {
         listaPokemonEvoluciones.push((evoChain.evolves_to[0].species.name));
         // Si el Pokémon tiene una evolución, lo almacena en el segundo lugar del array.
 
+        const evoTrigger = evoChain.evolves_to[0].evolution_details[0];
+        // Almacenamos en "evoTrigger" la ubicación del método evolutivo.
+
+        const primeraEvolucion = { // Creamos un objeto con los datos del método evolutivo.
+            "min_level": !evoTrigger ? 1 : evoTrigger.min_level,
+            "trigger_name": !evoTrigger ? null : evoTrigger.trigger.name,
+            "item": !evoTrigger ? null : evoTrigger.item
+        };
+
+        listaPokemonMetodosEvoluciones.push(primeraEvolucion);
+        // Se almacena en el array el método evolutivo.
+
         if (evoChain.evolves_to[0].evolves_to.length > 0) {
             listaPokemonEvoluciones.push(evoChain.evolves_to[0].evolves_to[0].species.name);
             // Si el Pokémon tiene una segunda evolución, lo almacena en el tercer lugar del array.
+
+            const evoTrigger2 = evoChain.evolves_to[0].evolves_to[0].evolution_details[0];
+            // Almacenamos en "evoTrigger" la ubicación del método evolutivo.
+
+            const segundaEvolucion = { // Creamos un objeto con los datos del método evolutivo.
+                "min_level": !evoTrigger2 ? 1 : evoTrigger2.min_level,
+                "trigger_name": !evoTrigger2 ? null : evoTrigger2.trigger.name,
+                "item": !evoTrigger2 ? null : evoTrigger2.item
+            };
+
+            listaPokemonMetodosEvoluciones.push(segundaEvolucion);
+            // Se almacena en el array el método evolutivo.
         }
     }
 
     if (evoChain.evolves_to.length >= 2) {
         for (let evos of evoChain.evolves_to) {
-            listaPokemonEvoluciones.push(evos.species.name);
             // Si el Pokémon tiene muchas evoluciones (Eevee), las almacena en el array con el bucle.
+
+            const evoTrigger = evos.evolution_details[0];
+            const primeraEvolucion = { // Creamos un objeto con los datos del método evolutivo.
+                "min_level": !evoTrigger ? 1 : evoTrigger.min_level,
+                "trigger_name": !evoTrigger ? null : evoTrigger.trigger.name,
+                "item": !evoTrigger ? null : evoTrigger.item
+            };
+
+            listaPokemonMetodosEvoluciones.push(primeraEvolucion);
+            listaPokemonEvoluciones.push(evos.species.name);
         }
     }
-    return listaPokemonEvoluciones;
-    // Se devuelve la lista.
+
+    return [listaPokemonEvoluciones, listaPokemonMetodosEvoluciones];
+    // Se devuelven ambas listas.
 }
 
 function filtarEvoluciones(evolucionesPokemon, listaPokemonKanto) {
@@ -409,11 +582,36 @@ function cambiarTema() {
     const temaPagina = document.getElementById('boton-tema');
     // Creamos una variable que acceda al id del botón.
 
+    const temaAlmacenado = localStorage.getItem('tema');
+    // Creamos una variable que verifica si hay un tema almacenado en localStorage.
+
+    if (temaAlmacenado) {
+        document.body.classList.add(temaAlmacenado);
+        // Si hay un tema almacenado, se añade a la clase del body.
+
+        if (temaAlmacenado === 'oscuro') {
+            temaPagina.classList.add('active');
+            // Si el tema almacenado es oscuro, se actualiza el estado del botón.
+        }
+    }
+
     temaPagina.addEventListener('click', () => {
         // Esta función se activa cuando el usuario da click al botón.
 
         document.body.classList.toggle('oscuro');
-        temaPagina.classList.toggle('active');
-        // Cambiamos el tipo de los elementos body a "oscuro" y ponemos el tema en activo para que el botón se actualice.
+        // Cambiamos el tipo de los elementos del body a "oscuro" o "claro".
+
+        if (document.body.classList.contains('oscuro')) {
+            localStorage.setItem('tema', 'oscuro');
+            temaPagina.classList.add('active');
+            // Si el tema seleccionado es oscuro, lo guardamos en localStorage con el nombre "oscuro".
+            // Se actualiza el estado del botón.
+
+        } else {
+            localStorage.setItem('tema', 'claro');
+            temaPagina.classList.remove('active');
+            // Si el tema seleccionado no es oscuro, se guarda en localStorage con el nombre "claro".
+            // Se actualiza el estado del botón.
+        }
     });
 }

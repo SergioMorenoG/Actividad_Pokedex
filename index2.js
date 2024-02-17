@@ -1,6 +1,9 @@
 const numeroDelPokemon = sessionStorage.getItem("numeroPokemon");
 // Obtenemos el número del pokémon que guardamos en la sesión del navegador.
 
+cambiarTema();
+// Se ejecuta la función para poder cambiar el tema de la página.
+
 obtenerDatosDeUnPokemon(numeroDelPokemon)
     // Se ejecuta la función para buscar los datos del pokémon.
 
@@ -62,8 +65,12 @@ obtenerDatosDeUnPokemon(numeroDelPokemon)
                     obtenerEvolucionesDelPokemon(datosAvanzados).then(datosEvoluciones => {
                         // Se ejecuta la función "obtenerEvolucionesDelPokemon" para conseguir la lista de evoluciones del Pokémon.
 
-                        let evolucionesPokemon = datosEvoluciones;
+                        let evolucionesPokemon = datosEvoluciones[0];
                         // Se almacena en "evolucionesPokemon" la lista con todas las evoluciones del Pokémon.
+
+                        pokemonData.metodoEvoluciones = metodosTraducidos(datosEvoluciones[1]);
+                        // En la propiedad "metodoEvoluciones" de "pokemonData" guardamos los métodos de evolución en español.
+                        // Para hacerlo, ejecutamos la función "metodosTraducidos" y los traducimos al español.
 
                         pokemonData.evoluciones = filtarEvoluciones(evolucionesPokemon, listaPokemonKanto);
                         // En la propiedad "evoluciones" de "pokemonData" guardamos las evoluciones del Pokémon.
